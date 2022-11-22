@@ -1,0 +1,13 @@
+.filter {
+	display: flex;
+	flex-direction: column;
+	background-color: #b4d2e7;
+	width: fit-content;
+	padding: 1em;
+	border-radius: 0.5em;
+
+	> * {
+		margin: 0.5em;
+		width: 20em;
+	}
+}

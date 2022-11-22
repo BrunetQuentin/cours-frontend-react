@@ -1,0 +1,58 @@
+.recette-widget {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 16em;
+	position: relative;
+
+	> h3 {
+		margin-top: 0.5em;
+		margin-bottom: 2em;
+	}
+
+	> .image {
+		height: fit-content;
+		position: relative;
+		aspect-ratio: 1/1;
+		overflow: hidden;
+		border-radius: 0.5em;
+
+		> .recette-cat {
+			position: absolute;
+			bottom: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 0.25em;
+			padding: 0.15em;
+			margin: 0.5em;
+			color: white;
+		}
+
+		> img {
+			width: 100%;
+			height: auto;
+			aspect-ratio: 1/1;
+			object-fit: cover;
+			transition: 0.5s;
+			cursor: pointer;
+
+			&:hover {
+				transform: scale(1.2);
+			}
+		}
+
+		> .link {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			margin: 0.5em;
+
+			> svg {
+				color: white;
+				background-color: rgba(0, 0, 0, 0.5);
+				padding: 0.15em;
+				border-radius: 0.5em;
+			}
+		}
+	}
+}
