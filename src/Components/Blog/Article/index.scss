@@ -1,0 +1,30 @@
+.article {
+	margin: 1em;
+	border-radius: 1em;
+	background-color: #514663;
+	color: white;
+	padding: 2em !important;
+
+	> .header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1em;
+
+		> .title {
+			font-size: 1.5em;
+			font-weight: bold;
+		}
+
+		> .date {
+			font-size: 0.8em;
+		}
+	}
+
+	textarea {
+		resize: none;
+		margin-bottom: 0;
+		width: 100%;
+	}
+}

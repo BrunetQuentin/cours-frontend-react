@@ -1,0 +1,19 @@
+.menu {
+	.nav-link.active {
+		background-color: #658e9c !important;
+		border-color: #658e9c !important;
+	}
+
+	* {
+		color: white !important;
+	}
+}
+
+.menu.nav-tabs {
+	border-color: #658e9c !important;
+}
+
+main {
+	background-color: #658e9c;
+	padding: 1em;
+}

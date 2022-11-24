@@ -25,6 +25,8 @@ type RecettePropsType = {
 }
 
 const Recette: React.FC<RecettePropsType> = ({ recette }) => {
+	console.log(recette)
+
 	return (
 		<div className="recette-widget">
 			<div className="image">

@@ -5,9 +5,9 @@ import Recette, { RecetteType } from './Recette'
 import './index.scss'
 import Filter from './Filter'
 
-type MainPropsType = {}
+type RecettesPropsType = {}
 
-const Main: React.FC<MainPropsType> = () => {
+const Recettes: React.FC<RecettesPropsType> = () => {
 	const [recettes, setRecettes] = useState<RecetteType[]>([])
 
 	const [filter, setFilter] = useState<any>({})
@@ -42,8 +42,7 @@ const Main: React.FC<MainPropsType> = () => {
 	}, [filter])
 
 	return (
-		<main>
-			<h1>Appli recettes de cuisine</h1>
+		<>
 			<Filter onFilterChange={(filter) => setFilter(filter)} />
 			<p>
 				<i>Un filtre a la fois</i>
@@ -53,8 +52,8 @@ const Main: React.FC<MainPropsType> = () => {
 					return <Recette recette={recette} key={recette.idMeal} />
 				})}
 			</div>
-		</main>
+		</>
 	)
 }
 
-export default Main
+export default Recettes
