@@ -27,7 +27,7 @@ const Filter: React.FC<FilterPropsType> = ({ onFilterChange }) => {
 				url: 'https://www.themealdb.com/api/json/v1/1/list.php?' + key + '=list',
 			}).then((response: any) => {
 				setAllOptions((old: any) => {
-					old[key] = response.data.meals
+					if (response.data.meals) old[key] = response.data.meals
 					return { ...old }
 				})
 			})
@@ -46,6 +46,8 @@ const Filter: React.FC<FilterPropsType> = ({ onFilterChange }) => {
 	useEffect(() => {
 		onFilterChange(filter)
 	}, [filter])
+
+	console.log(allOptions)
 
 	return (
 		<div className="filter">

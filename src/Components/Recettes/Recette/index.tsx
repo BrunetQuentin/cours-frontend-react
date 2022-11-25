@@ -1,5 +1,6 @@
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link, useLocation } from 'react-router-dom'
 import './index.scss'
 
 export type RecetteType = {
@@ -25,19 +26,21 @@ type RecettePropsType = {
 }
 
 const Recette: React.FC<RecettePropsType> = ({ recette }) => {
-	console.log(recette)
+	let { pathname } = useLocation()
 
 	return (
-		<div className="recette-widget">
-			<div className="image">
-				<img src={recette.strMealThumb} alt={recette.strMeal} />
-				<p className="recette-cat">{recette.strCategory}</p>
-				<a className="link" href={recette.strSource}>
-					<FontAwesomeIcon icon={faLink} />
-				</a>
+		<Link to={pathname + '/' + recette.idMeal} className="link-recette">
+			<div className="recette-widget">
+				<div className="image">
+					<img src={recette.strMealThumb} alt={recette.strMeal} />
+					<p className="recette-cat">{recette.strCategory}</p>
+					<a className="link" href={recette.strSource}>
+						<FontAwesomeIcon icon={faLink} />
+					</a>
+				</div>
+				<h3>{recette.strMeal}</h3>
 			</div>
-			<h3>{recette.strMeal}</h3>
-		</div>
+		</Link>
 	)
 }
 

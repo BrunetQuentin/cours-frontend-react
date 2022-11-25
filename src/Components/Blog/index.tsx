@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Col, Container, ProgressBar, Row } from 'react-bootstrap'
+import { verifyArticle } from '../../Util'
 import Article, { ArticleType } from './Article'
 import './index.scss'
 
 type BlogPropsType = {}
 
-const LENGTHOFMESSAGE = 140
+export const LENGTHOFMESSAGE = 140
 
 const Blog: React.FC<BlogPropsType> = () => {
 	const [articles, setArticles] = useState<ArticleType[]>([])
@@ -34,13 +35,16 @@ const Blog: React.FC<BlogPropsType> = () => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		let url = 'http://localhost:3003/articles'
-		axios({
-			method: 'POST',
-			url: url,
-			data: newArticle,
-		})
-		setArticles((old) => [...old, newArticle])
+
+		if (verifyArticle(newArticle)) {
+			let url = 'http://localhost:3003/articles'
+			axios({
+				method: 'POST',
+				url: url,
+				data: newArticle,
+			})
+			setArticles((old) => [...old, newArticle])
+		}
 	}
 
 	const handleDelete = (id: number) => {
@@ -51,6 +55,17 @@ const Blog: React.FC<BlogPropsType> = () => {
 		})
 
 		setArticles((old) => old.filter((article) => article.id !== id))
+	}
+
+	const handleModifyArticle = (value: ArticleType) => {
+		let url = 'http://localhost:3003/articles/' + value.id
+		axios({
+			method: 'PUT',
+			url: url,
+			data: value,
+		})
+
+		setArticles((old) => old.map((article) => (article.id === value.id ? value : article)))
 	}
 
 	return (
@@ -75,7 +90,7 @@ const Blog: React.FC<BlogPropsType> = () => {
 					return (
 						<Row key={article.id}>
 							<Col>
-								<Article article={article} onDelete={handleDelete} />
+								<Article article={article} onDelete={handleDelete} onModify={handleModifyArticle} />
 							</Col>
 						</Row>
 					)

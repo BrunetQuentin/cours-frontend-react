@@ -4,6 +4,8 @@ import { keysIndexToList } from '../../Util'
 import Recette, { RecetteType } from './Recette'
 import './index.scss'
 import Filter from './Filter'
+import { Route, Routes, useHref, useLocation, useMatch, useMatches, useNavigate, useRoutes } from 'react-router-dom'
+import RecetteDetail from '../RecetteDetail'
 
 type RecettesPropsType = {}
 
@@ -11,6 +13,8 @@ const Recettes: React.FC<RecettesPropsType> = () => {
 	const [recettes, setRecettes] = useState<RecetteType[]>([])
 
 	const [filter, setFilter] = useState<any>({})
+
+	let { pathname } = useLocation()
 
 	useEffect(() => {
 		let url
@@ -41,18 +45,28 @@ const Recettes: React.FC<RecettesPropsType> = () => {
 		})
 	}, [filter])
 
+	console.log(pathname)
+
 	return (
-		<>
-			<Filter onFilterChange={(filter) => setFilter(filter)} />
-			<p>
-				<i>Un filtre a la fois</i>
-			</p>
-			<div className="recettes">
-				{recettes.map((recette: RecetteType) => {
-					return <Recette recette={recette} key={recette.idMeal} />
-				})}
-			</div>
-		</>
+		<Routes>
+			<Route path="recettes/:id" element={<RecetteDetail />} />
+			<Route
+				path="/"
+				element={
+					<>
+						<Filter onFilterChange={(filter) => setFilter(filter)} />
+						<p>
+							<i>Un filtre a la fois</i>
+						</p>
+						<div className="recettes">
+							{recettes.map((recette: RecetteType) => {
+								return <Recette recette={recette} key={recette.idMeal} />
+							})}
+						</div>
+					</>
+				}
+			/>
+		</Routes>
 	)
 }
 

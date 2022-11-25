@@ -4,6 +4,7 @@
 	background-color: #514663;
 	color: white;
 	padding: 2em !important;
+	position: relative;
 
 	> .header {
 		display: flex;
@@ -26,5 +27,39 @@
 		resize: none;
 		margin-bottom: 0;
 		width: 100%;
+	}
+
+	.editable {
+		outline: 1px solid white !important;
+		border-radius: 0.25em;
+	}
+
+	> .svg-button {
+		color: white;
+		font-size: x-large;
+		margin: 0.5em;
+		cursor: pointer;
+		position: absolute;
+		aspect-ratio: 1/1;
+	}
+
+	> .delete {
+		top: 0;
+		right: 0;
+	}
+
+	> .acceptEdit {
+		bottom: 0;
+		right: 0;
+	}
+
+	> .cancelEdit {
+		bottom: 0;
+		left: 0;
+	}
+
+	> .edit {
+		top: 0;
+		left: 0;
 	}
 }

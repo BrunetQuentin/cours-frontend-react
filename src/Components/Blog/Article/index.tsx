@@ -1,5 +1,9 @@
-import { useRef, useState } from 'react'
+import { faBan, faCheck, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormEvent, useRef, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { LENGTHOFMESSAGE } from '..'
+import { verifyArticle } from '../../../Util'
 import './index.scss'
 
 export type ArticleType = {
@@ -12,7 +16,7 @@ export type ArticleType = {
 type ArticlePropsType = {
 	article: ArticleType
 	onDelete?: (id: number) => void
-	onModify?: (value: string) => void
+	onModify?: (value: ArticleType) => void
 }
 
 const Article: React.FC<ArticlePropsType> = ({ article, onDelete, onModify }) => {
@@ -25,10 +29,12 @@ const Article: React.FC<ArticlePropsType> = ({ article, onDelete, onModify }) =>
 	const [modify, setModify] = useState<boolean>(false)
 
 	const handleModify = (e: any) => {
-		e.preventDefault()
-		onModify && onModify(e.target.value)
-		setModify(false)
-		setLocalArticle(modifingArticle)
+		if (verifyArticle(modifingArticle)) {
+			e.preventDefault()
+			onModify && onModify(modifingArticle)
+			setModify(false)
+			setLocalArticle(modifingArticle)
+		}
 	}
 
 	const cancelModify = (e: any) => {
@@ -36,18 +42,16 @@ const Article: React.FC<ArticlePropsType> = ({ article, onDelete, onModify }) =>
 		setModifingArticle(localArticle)
 	}
 
-	const handleChange = (e: any, key: string) => {
-		console.log(key, e.target.value)
-
-		setModifingArticle({ ...modifingArticle, [key]: e.target.value })
+	const handleChange = (e: FormEvent<HTMLParagraphElement>, key: string) => {
+		setModifingArticle({ ...modifingArticle, [key]: e.currentTarget.outerText })
 	}
 
 	return (
 		<Container className="article">
 			<div className="header">
 				{modify ? (
-					<p key="modify" className="title" contentEditable onChange={(e) => handleChange(e, 'author')}>
-						{modifingArticle.author}
+					<p key="modify" className="title editable" contentEditable onInput={(e) => handleChange(e, 'author')} suppressContentEditableWarning>
+						{localArticle.author}
 					</p>
 				) : (
 					<p key="notModify" className="title">
@@ -57,17 +61,21 @@ const Article: React.FC<ArticlePropsType> = ({ article, onDelete, onModify }) =>
 				<p className="date">Posté le {date.getDay() + date.getMonth()}</p>
 			</div>
 			{modify ? (
-				<p key="modify" className="content" contentEditable onChange={(e) => handleChange(e, 'content')}>
-					{modifingArticle.content}
+				<p key="modify" className="content editable" contentEditable onInput={(e) => handleChange(e, 'content')} suppressContentEditableWarning>
+					{localArticle.content}
 				</p>
 			) : (
 				<p key="notModify" className="content">
 					{localArticle.content}
 				</p>
 			)}
-			<button onClick={() => onDelete && onDelete(localArticle.id)}>Supprimer</button>
-			{modify ? <button onClick={handleModify}>Valider</button> : <button onClick={() => setModify(true)}>Modifier</button>}
-			{modify && <button onClick={cancelModify}>Annuler</button>}
+			<FontAwesomeIcon icon={faXmark} onClick={() => onDelete && onDelete(localArticle.id)} className="delete svg-button" title="Supprimer" />
+			{modify ? (
+				<FontAwesomeIcon icon={faCheck} title="Modifier" onClick={handleModify} className="acceptEdit svg-button" />
+			) : (
+				<FontAwesomeIcon icon={faPenToSquare} title="Modifier" onClick={() => setModify(true)} className="edit svg-button" />
+			)}
+			{modify && <FontAwesomeIcon icon={faBan} onClick={cancelModify} title="Annuler" className="cancelEdit svg-button" />}
 		</Container>
 	)
 }

@@ -1,8 +1,9 @@
 import './index.scss'
-import { Routes, Route, NavLink } from 'react-router-dom'
+import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import Blog from '../Blog'
 import Recettes from '../Recettes'
 import Nav from 'react-bootstrap/Nav'
+import RecetteDetail from '../RecetteDetail'
 
 type MenuPropsType = {}
 
@@ -23,8 +24,9 @@ const Menu: React.FC<MenuPropsType> = ({}) => {
 			</Nav>
 			<main>
 				<Routes>
-					<Route path="/recettes" element={<Recettes />}></Route>
-					<Route path="/blog" element={<Blog />}></Route>
+					<Route path="/recettes" element={<Recettes />} />
+					<Route path="/blog" element={<Blog />} />
+					<Route path="/" element={<Navigate to={'/recettes'} />} />
 				</Routes>
 			</main>
 		</>
