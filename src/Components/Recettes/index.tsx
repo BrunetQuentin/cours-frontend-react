@@ -4,8 +4,9 @@ import { keysIndexToList } from '../../Util'
 import Recette, { RecetteType } from './Recette'
 import './index.scss'
 import Filter from './Filter'
-import { Route, Routes, useHref, useLocation, useMatch, useMatches, useNavigate, useRoutes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import RecetteDetail from '../RecetteDetail'
+import { Button, Modal } from 'react-bootstrap'
 
 type RecettesPropsType = {}
 
@@ -15,6 +16,8 @@ const Recettes: React.FC<RecettesPropsType> = () => {
 	const [filter, setFilter] = useState<any>({})
 
 	let { pathname } = useLocation()
+
+	const [idMealClicked, setIdMealClicked] = useState<string | null>(null)
 
 	useEffect(() => {
 		let url
@@ -45,28 +48,30 @@ const Recettes: React.FC<RecettesPropsType> = () => {
 		})
 	}, [filter])
 
-	console.log(pathname)
-
 	return (
-		<Routes>
-			<Route path="recettes/:id" element={<RecetteDetail />} />
-			<Route
-				path="/"
-				element={
-					<>
-						<Filter onFilterChange={(filter) => setFilter(filter)} />
-						<p>
-							<i>Un filtre a la fois</i>
-						</p>
-						<div className="recettes">
-							{recettes.map((recette: RecetteType) => {
-								return <Recette recette={recette} key={recette.idMeal} />
-							})}
-						</div>
-					</>
-				}
-			/>
-		</Routes>
+		<>
+			<Filter onFilterChange={(filter) => setFilter(filter)} />
+			<p>
+				<i>Un filtre a la fois</i>
+			</p>
+			<div className="recettes">
+				{recettes.map((recette: RecetteType) => {
+					return <Recette recette={recette} key={recette.idMeal} onReceteClick={(id) => setIdMealClicked(id)} />
+				})}
+			</div>
+
+			<Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={idMealClicked !== null} onHide={() => setIdMealClicked(null)}>
+				<Modal.Header closeButton>
+					<Modal.Title id="contained-modal-title-vcenter">Detail de la recette</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<RecetteDetail idMeal={idMealClicked!} />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button onClick={() => setIdMealClicked(null)}>Fermer</Button>
+				</Modal.Footer>
+			</Modal>
+		</>
 	)
 }
 

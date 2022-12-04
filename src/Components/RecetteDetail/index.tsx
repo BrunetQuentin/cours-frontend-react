@@ -7,34 +7,29 @@ import { keysIndexToList } from '../../Util'
 import { RecetteType } from '../Recettes/Recette'
 import './index.scss'
 
-const RecetteDetail: React.FC = () => {
-	let { pathname } = useLocation()
-
-	let { id } = useParams()
-
-	const navigate = useNavigate()
-
+const RecetteDetail: React.FC<{ idMeal: string }> = ({ idMeal }) => {
 	const [recette, setRecette] = useState<RecetteType | null>()
 
 	useEffect(() => {
 		axios({
 			method: 'get',
-			url: 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + id,
+			url: 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + idMeal,
 		}).then((response: any) => {
-			const object = response.data.meals[0]
+			let object = response.data.meals
+			if (!object) return
+			object = object[0]
 
 			object['strIngredients'] = keysIndexToList(object, 'strIngredient')
 			object['strMeasures'] = keysIndexToList(object, 'strMeasure')
 
 			setRecette(object)
 		})
-	}, [])
+	}, [idMeal])
 
 	if (!recette) return <div>Chargement...</div>
 
 	return (
 		<div className="recette-detail">
-			<FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate(-1)} />
 			<h2>{recette.strMeal}</h2>
 			<img src={recette.strMealThumb} alt={recette.strMeal} />
 			<section>

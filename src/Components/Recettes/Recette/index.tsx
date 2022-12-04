@@ -23,24 +23,23 @@ export type RecetteType = {
 
 type RecettePropsType = {
 	recette: RecetteType
+	onReceteClick?: (id: string) => void
 }
 
-const Recette: React.FC<RecettePropsType> = ({ recette }) => {
+const Recette: React.FC<RecettePropsType> = ({ recette, onReceteClick }) => {
 	let { pathname } = useLocation()
 
 	return (
-		<Link to={pathname + '/' + recette.idMeal} className="link-recette">
-			<div className="recette-widget">
-				<div className="image">
-					<img src={recette.strMealThumb} alt={recette.strMeal} />
-					<p className="recette-cat">{recette.strCategory}</p>
-					<a className="link" href={recette.strSource}>
-						<FontAwesomeIcon icon={faLink} />
-					</a>
-				</div>
-				<h3>{recette.strMeal}</h3>
+		<div className="recette-widget" onClick={() => onReceteClick && onReceteClick(recette.idMeal)}>
+			<div className="image">
+				<img src={recette.strMealThumb} alt={recette.strMeal} />
+				<p className="recette-cat">{recette.strCategory}</p>
+				<a className="link" href={recette.strSource}>
+					<FontAwesomeIcon icon={faLink} />
+				</a>
 			</div>
-		</Link>
+			<h3>{recette.strMeal}</h3>
+		</div>
 	)
 }
 

@@ -47,27 +47,37 @@ const Filter: React.FC<FilterPropsType> = ({ onFilterChange }) => {
 		onFilterChange(filter)
 	}, [filter])
 
-	console.log(allOptions)
-
 	return (
 		<div className="filter">
 			<input type="text" placeholder="Nom de la recette" onChange={(e) => handleChange('s', e.target.value)} />
 			<select onChange={(e) => handleChange('c', e.target.value)}>
 				<option value="">Catégorie</option>
 				{allOptions.c.map((option: any) => {
-					return <option value={option.strCategory}>{option.strCategory}</option>
+					return (
+						<option value={option.strCategory} key={'c.' + option.strCategory}>
+							{option.strCategory}
+						</option>
+					)
 				})}
 			</select>
 			<select onChange={(e) => handleChange('a', e.target.value)}>
 				<option value="">Pays</option>
 				{allOptions.a.map((option: any) => {
-					return <option value={option.strArea}>{option.strArea}</option>
+					return (
+						<option value={option.strArea} key={'a.' + option.strArea}>
+							{option.strArea}
+						</option>
+					)
 				})}
 			</select>
 			<select onChange={(e) => handleChange('i', e.target.value)}>
 				<option value="">Ingrédient</option>
 				{allOptions.i.map((option: any) => {
-					return <option value={option.strIngredient}>{option.strIngredient}</option>
+					return (
+						<option value={option.strIngredient} key={'i.' + option.strIngredient}>
+							{option.strIngredient}
+						</option>
+					)
 				})}
 			</select>
 		</div>
