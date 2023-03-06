@@ -45,6 +45,13 @@ const Blog: React.FC<BlogPropsType> = () => {
 			})
 			setArticles((old) => [...old, newArticle])
 		}
+
+		setNewArticle({
+			author: '',
+			content: '',
+			date: Date.now(),
+			id: Date.now(),
+		})
 	}
 
 	const handleDelete = (id: number) => {
